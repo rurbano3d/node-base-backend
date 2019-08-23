@@ -14,7 +14,7 @@ class User extends Model {
         sequelize,
       }
     );
-
+    // criptografar a senha antes de salvar
     this.addHook('beforeSave', async user => {
       if (user.password) {
         user.password_hash = await bcrypt.hash(user.password, 8);
@@ -24,6 +24,7 @@ class User extends Model {
     return this;
   }
 
+  // faz um comparativo da senha enviada com a criptografada no BD
   checkPassword(password) {
     return bcrypt.compare(password, this.password_hash);
   }
