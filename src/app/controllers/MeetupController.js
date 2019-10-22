@@ -26,6 +26,14 @@ class MeetupController {
     return res.json(meetups);
   }
 
+  async show(req, res) {
+    const meetup = await Meetup.findByPk(req.params.id);
+    if (!meetup) {
+      return res.status(400).json({ error: "meetup don't exists" });
+    }
+    return res.json(meetup);
+  }
+
   async store(req, res) {
     // Validação com YUP
     const schema = Yup.object().shape({
