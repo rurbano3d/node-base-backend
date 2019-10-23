@@ -3,6 +3,7 @@ import * as Yup from 'yup';
 import { Op } from 'sequelize';
 import Meetup from '../models/Meetup';
 import User from '../models/User';
+import File from '../models/File';
 
 class MeetupController {
   async index(req, res) {
@@ -27,10 +28,19 @@ class MeetupController {
   }
 
   async show(req, res) {
-    const meetup = await Meetup.findByPk(req.params.id);
+    const meetup = await Meetup.findOne({
+      where: { id: req.params.id },
+      include: [
+        {
+          model: File,
+          attributes: ['path'],
+        },
+      ],
+    });
     if (!meetup) {
       return res.status(400).json({ error: "meetup don't exists" });
     }
+
     return res.json(meetup);
   }
 
