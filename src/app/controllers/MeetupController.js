@@ -33,7 +33,7 @@ class MeetupController {
       include: [
         {
           model: File,
-          attributes: ['path'],
+          attributes: ['id', 'path', 'url'],
         },
       ],
     });
